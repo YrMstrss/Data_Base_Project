@@ -33,6 +33,11 @@ def get_employer_info(keyword: str) -> dict:
 
 
 def get_employer_vacancies(emp_id: str) -> list[dict]:
+    """
+    Get info about python-vacancies of employer
+    :param emp_id: employee id
+    :return: list of dictionaries containing info about vacancies
+    """
     params = {'text': 'python', 'page': 0, 'per_page': 100, 'employer_id': emp_id}
     request = requests.get('https://api.hh.ru/vacancies', params=params)
 
