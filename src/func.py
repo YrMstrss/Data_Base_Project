@@ -17,3 +17,10 @@ def get_employer_id(keyword: str) -> str:
     request = requests.get('https://api.hh.ru/employers', params=params)
 
     return request.json()['items'][0]['id']
+
+
+def get_employer_info(keyword: str) -> dict:
+    employer_id = get_employer_id(keyword)
+    request = requests.get(f'https://api.hh.ru/employers/{employer_id}')
+
+    return request.json()
