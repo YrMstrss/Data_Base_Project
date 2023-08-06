@@ -20,6 +20,12 @@ def get_employer_id(keyword: str) -> str:
 
 
 def get_employer_info(keyword: str) -> dict:
+    """
+    Get employee information by company name using get_employer_id function.
+    :param keyword: company name
+    :return: info about employer
+    """
+
     employer_id = get_employer_id(keyword)
     request = requests.get(f'https://api.hh.ru/employers/{employer_id}')
 
