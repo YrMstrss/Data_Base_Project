@@ -1,4 +1,5 @@
 import requests
+import psycopg2
 
 
 companies = ['Сбер. IT', 'Яндекс', 'Blue underlined link', 'Effective Mobile', 'Райффайзен Банк',
@@ -84,3 +85,21 @@ def get_employer_vacancies(emp_id: str) -> list[dict]:
         vacancies.append(vacancy)
 
     return vacancies
+
+
+def add_employer_to_table(employer_dict: dict):
+    """
+    Add info about employer to database table
+    :param employer_dict: dict with info about employer
+    :return: none
+    """
+    with psycopg2.connect(host='localhost', database='hh data base', user='postgres', password='qwaszxL1') as conn:
+        with conn.cursor() as cur:
+            company_id = employer_dict['id']
+            name = employer_dict['name']
+            url = employer_dict['alternate_url']
+            description = employer_dict['description']
+            city = employer_dict['area']['name']
+            vacancy_count = employer_dict['open_vacancies']
+            cur.execute('INSERT INTO employers VALUES (%s, %s, %s, %s, %s, %s)', (company_id, name, url, description,
+                                                                                  city, vacancy_count))
