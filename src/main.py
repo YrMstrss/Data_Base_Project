@@ -1,4 +1,5 @@
-from src.func import get_employer_info, get_employer_vacancies, add_employer_to_table, add_vacancy_to_table
+from src.func import get_employer_info, get_employer_vacancies, add_employer_to_table, add_vacancy_to_table,\
+    clear_tables
 
 
 def main():
@@ -7,6 +8,8 @@ def main():
                  'VoxWeb Interactive', 'ТОО Playrix']
 
     employer_ids = []
+
+    clear_tables()
 
     for company in companies:
         company_info = get_employer_info(company)
