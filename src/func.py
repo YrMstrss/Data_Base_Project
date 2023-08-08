@@ -121,3 +121,13 @@ def add_vacancy_to_table(vacancy_list: list) -> None:
                 cur.execute('INSERT INTO vacancies VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)',
                             (vacancy_id, name, url, employment,
                              city, experience, min_salary, max_salary, currency))
+
+
+def clear_tables():
+    """
+    Delete all info from tables
+    :return: None
+    """
+    with psycopg2.connect(host='localhost', database='hh data base', user='postgres', password='qwaszxL1') as conn:
+        with conn.cursor() as cur:
+            cur.execute('TRUNCATE TABLE employers, vacancies')
