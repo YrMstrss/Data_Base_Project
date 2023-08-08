@@ -87,7 +87,7 @@ def get_employer_vacancies(emp_id: str) -> list[dict]:
     return vacancies
 
 
-def add_employer_to_table(employer_dict: dict):
+def add_employer_to_table(employer_dict: dict) -> None:
     """
     Add info about employer to database table
     :param employer_dict: dict with info about employer
@@ -103,3 +103,26 @@ def add_employer_to_table(employer_dict: dict):
             vacancy_count = employer_dict['open_vacancies']
             cur.execute('INSERT INTO employers VALUES (%s, %s, %s, %s, %s, %s)', (company_id, name, url, description,
                                                                                   city, vacancy_count))
+
+
+def add_vacancy_to_table(vacancy_list: list) -> None:
+    """
+    Add info about vacation to table
+    :param vacancy_list: List with all vacations of employer
+    :return: none
+    """
+    with psycopg2.connect(host='localhost', database='hh data base', user='postgres', password='qwaszxL1') as conn:
+        with conn.cursor() as cur:
+            for vacancy in vacancy_list:
+                vacancy_id = vacancy['vacancy_id']
+                name = vacancy['name']
+                url = vacancy['url']
+                employment = vacancy['employment']
+                city = vacancy['area']
+                experience = vacancy['experience']
+                min_salary = int(vacancy['min_salary'])
+                max_salary = int(vacancy['max_salary'])
+                currency = vacancy['currency']
+                cur.execute('INSERT INTO vacancies VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                            (vacancy_id, name, url, employment,
+                             city, experience, min_salary, max_salary, currency))
