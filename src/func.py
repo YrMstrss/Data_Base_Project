@@ -48,7 +48,7 @@ def get_employer_vacancies(emp_id: str) -> list[dict]:
     for item in data:
         vacancy = {
             'name': item['name'], 'url': item['alternate_url'], 'employment': item['employment']['name'],
-            'area': item['area']['name']
+            'area': item['area']['name'], 'vacancy_id': item['id'], 'employer_id': emp_id
         }
 
         if item['experience']['name'] == 'Нет опыта':
@@ -63,8 +63,8 @@ def get_employer_vacancies(emp_id: str) -> list[dict]:
             vacancy['experience'] = 'Не имеет значения'
 
         if item['salary'] is None:
-            vacancy['min_salary'] = 'По договоренности'
-            vacancy['max_salary'] = 'По договоренности'
+            vacancy['min_salary'] = 0
+            vacancy['max_salary'] = 0
             vacancy['currency'] = 'Не указано'
         else:
             if item['salary']['from'] is None:
