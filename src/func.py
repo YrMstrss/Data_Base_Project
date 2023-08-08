@@ -64,12 +64,12 @@ def get_employer_vacancies(emp_id: str) -> list[dict]:
             vacancy['currency'] = 'Не указано'
         else:
             if item['salary']['from'] is None:
-                vacancy['min_salary'] = 'Минимальная зарплата не указана'
+                vacancy['min_salary'] = 0
             else:
                 vacancy['min_salary'] = item['salary']['from']
 
             if item['salary']['to'] is None:
-                vacancy['max_salary'] = 'Максимальная зарплата не указана'
+                vacancy['max_salary'] = 0
             else:
                 vacancy['max_salary'] = item['salary']['to']
             if item['salary']['currency'] == 'RUR':
@@ -118,9 +118,10 @@ def add_vacancy_to_table(vacancy_list: list) -> None:
                 min_salary = int(vacancy['min_salary'])
                 max_salary = int(vacancy['max_salary'])
                 currency = vacancy['currency']
-                cur.execute('INSERT INTO vacancies VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                employer_id = vacancy['employer_id']
+                cur.execute('INSERT INTO vacancies VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
                             (vacancy_id, name, url, employment,
-                             city, experience, min_salary, max_salary, currency))
+                             city, experience, min_salary, max_salary, currency, employer_id))
 
 
 def clear_tables():

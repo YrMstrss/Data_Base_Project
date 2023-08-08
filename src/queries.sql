@@ -11,13 +11,13 @@ CREATE TABLE employers
 CREATE TABLE vacancies
 (
 	ID_вакансии int PRIMARY KEY,
-	Название varchar(50),
-	Ссылка varchar(50),
+	Название varchar(100),
+	Ссылка varchar(100),
 	Тип_занятости varchar(30),
 	Город varchar(30),
 	Опыт_работы varchar(20),
 	Минимальная_зарплата int,
 	Максимальная_зарплата int,
-	Валюта varchar(3),
+	Валюта varchar(10),
 	ID_компании int REFERENCES empoyers (ID_компании) NOT NULL
 )
