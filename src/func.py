@@ -2,11 +2,6 @@ import requests
 import psycopg2
 
 
-companies = ['Сбер. IT', 'Яндекс', 'Blue underlined link', 'Effective Mobile', 'Райффайзен Банк',
-             'Ozon Информационные технологии', 'Ostrovok.ru', 'ПАО ВТБ, Технологический блок', 'Haraba',
-             'VoxWeb Interactive', 'ТОО Playrix']
-
-
 def get_employer_id(keyword: str) -> str:
     """
     Get id of the employer by company name.
