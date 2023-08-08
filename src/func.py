@@ -12,6 +12,11 @@ def get_employer_id(keyword: str) -> str:
     params = {'text': keyword}
     request = requests.get('https://api.hh.ru/employers', params=params)
 
+    if len(request.json()['items']) > 1:
+        for item in request.json()['items']:
+            if item['name'] == keyword:
+                return item['id']
+
     return request.json()['items'][0]['id']
 
 
