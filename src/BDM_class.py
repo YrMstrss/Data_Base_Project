@@ -18,7 +18,17 @@ class BDManager:
                 print(row)
 
     def get_all_vacancies(self):
-        pass
+        with self.conn.cursor() as cur:
+            cur.execute("""
+            SELECT vacancies.Название, vacancies.Ссылка, Минимальная_зарплата, Максимальная_зарплата,
+            employers.Название AS Название_компании
+            FROM vacancies
+            LEFT JOIN employers USING (ID_компании)         
+            """)
+
+            rows = cur.fetchall()
+            for row in rows:
+                print(row)
 
     def get_avg_salary(self):
         pass
