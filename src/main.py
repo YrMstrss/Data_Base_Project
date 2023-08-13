@@ -1,5 +1,6 @@
 from src.func import get_employer_info, get_employer_vacancies, add_employer_to_table, add_vacancy_to_table,\
     clear_tables
+from src.BDM_class import BDManager
 
 
 def main():
@@ -19,6 +20,13 @@ def main():
     for employer_id in employer_ids:
         vacation_list = get_employer_vacancies(employer_id)
         add_vacancy_to_table(vacation_list)
+
+    db = BDManager()
+    db.get_companies_and_vacancies_count()
+    db.get_all_vacancies()
+    db.get_avg_salary()
+    db.get_vacancies_with_higher_salary()
+    db.get_vacancies_with_keyword()
 
 
 if __name__ == '__main__':
