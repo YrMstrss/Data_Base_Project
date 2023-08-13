@@ -3,11 +3,13 @@ import psycopg2
 
 class BDManager:
 
-    def __init__(self, host='localhost', database='hh data base', user='postgres', password='qwaszxL1'):
+    def __init__(self, host='localhost', database='hh data base', user='postgres', password='qwaszxL1',
+                 keyword='python'):
         self.host = host
         self.database = database
         self.user = user
         self.password = password
+        self.keyword = keyword
         self.conn = psycopg2.connect(host=self.host, database=self.database, user=self.user, password=self.password)
 
     def get_companies_and_vacancies_count(self):
@@ -52,4 +54,12 @@ class BDManager:
                 print(row)
 
     def get_vacancies_with_keyword(self):
-        pass
+        with self.conn.cursor() as cur:
+            cur.execute(f"""
+            SELECT * FROM vacancies
+            WHERE Название LIKE '%{self.keyword}%' OR Название LIKE '%{self.keyword.title()}%'
+            """)
+
+            rows = cur.fetchall()
+            for row in rows:
+                print(row)
