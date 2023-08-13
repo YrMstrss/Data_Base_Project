@@ -41,7 +41,15 @@ class BDManager:
             print(average_payment)
 
     def get_vacancies_with_higher_salary(self):
-        pass
+        with self.conn.cursor() as cur:
+            cur.execute(f"""
+            SELECT * FROM vacancies
+            WHERE Минимальная_зарплата > (SELECT AVG(Минимальная_зарплата) FROM vacancies)
+            """)
+
+            rows = cur.fetchall()
+            for row in rows:
+                print(row)
 
     def get_vacancies_with_keyword(self):
         pass
