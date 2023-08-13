@@ -11,7 +11,11 @@ class BDManager:
         self.conn = psycopg2.connect(host=self.host, database=self.database, user=self.user, password=self.password)
 
     def get_companies_and_vacancies_count(self):
-        pass
+        with self.conn.cursor() as cur:
+            cur.execute("SELECT Название, Количество_открытых_вакансий FROM employers")
+            rows = cur.fetchall()
+            for row in rows:
+                print(row)
 
     def get_all_vacancies(self):
         pass
