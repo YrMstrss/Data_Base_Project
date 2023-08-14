@@ -130,13 +130,15 @@ def create_database(database_name: str, params: dict) -> None:
     conn.close()
 
 
-def add_employer_to_table(employer_dict: dict) -> None:
+def add_employer_to_table(employer_dict: dict, database_name: str, params: dict) -> None:
     """
     Add info about employer to database table
     :param employer_dict: dict with info about employer
-    :return: none
+    :param database_name: Name of the database
+    :param params: Parameters for connection to database
+    :return: None
     """
-    with psycopg2.connect(host='localhost', database='hh data base', user='postgres', password='qwaszxL1') as conn:
+    with psycopg2.connect(database=database_name, **params) as conn:
         with conn.cursor() as cur:
             company_id = employer_dict['id']
             name = employer_dict['name']
@@ -148,13 +150,15 @@ def add_employer_to_table(employer_dict: dict) -> None:
                                                                                   city, vacancy_count))
 
 
-def add_vacancy_to_table(vacancy_list: list) -> None:
+def add_vacancy_to_table(vacancy_list: list, database_name: str, params: dict) -> None:
     """
     Add info about vacation to table
     :param vacancy_list: List with all vacations of employer
-    :return: none
+    :param database_name: Name of the database
+    :param params: Parameters for connection to database
+    :return: None
     """
-    with psycopg2.connect(host='localhost', database='hh data base', user='postgres', password='qwaszxL1') as conn:
+    with psycopg2.connect(database=database_name, **params) as conn:
         with conn.cursor() as cur:
             for vacancy in vacancy_list:
                 vacancy_id = vacancy['vacancy_id']
@@ -172,11 +176,11 @@ def add_vacancy_to_table(vacancy_list: list) -> None:
                              city, experience, min_salary, max_salary, currency, employer_id))
 
 
-def clear_tables():
+def clear_tables(database_name: str, params: dict):
     """
-    Delete all info from tables
+    Delete all info from tables 'employers' and 'vacancies'
     :return: None
     """
-    with psycopg2.connect(host='localhost', database='hh data base', user='postgres', password='qwaszxL1') as conn:
+    with psycopg2.connect(database=database_name, **params) as conn:
         with conn.cursor() as cur:
             cur.execute('TRUNCATE TABLE employers, vacancies')
