@@ -87,6 +87,49 @@ def get_employer_vacancies(emp_id: str) -> list[dict]:
     return vacancies
 
 
+def create_database(database_name: str, params: dict) -> None:
+    """
+    Create a database with given name and params
+    :param database_name: Database name
+    :param params: Parameters for connection to database
+    :return: None
+    """
+    with psycopg2.connect(database='postgres', **params) as conn:
+        with conn.cursor() as cur:
+            cur.execute('DROP DATABASE {database_name}')
+            cur.execute(f'CREATE DATABASE {database_name}')
+
+    conn.close()
+
+    with psycopg2.connect(database=database_name, **params) as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                CREATE TABLE employers (
+                    Company_ID int PRIMARY KEY,
+                    Company_name varchar(50),
+                    URL varchar(50),
+                    Description text,
+                    City varchar(30),
+                    Vacancies_counter int
+                    );
+                    
+                CREATE TABLE vacancies (
+                    Vacancy_ID int PRIMARY KEY,
+                    Vacancy_name varchar(100),
+                    URL varchar(100),
+                    Employment varchar(30),
+                    City varchar(30),
+                    Experience varchar(20),
+                    Min_salary int,
+                    Max_salary int,
+                    Currency varchar(10),
+                    Company_ID int REFERENCES employers (ID_компании) NOT NULL
+                    )
+            """)
+
+    conn.close()
+
+
 def add_employer_to_table(employer_dict: dict) -> None:
     """
     Add info about employer to database table
