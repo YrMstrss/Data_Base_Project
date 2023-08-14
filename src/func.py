@@ -96,7 +96,7 @@ def create_database(database_name: str, params: dict) -> None:
     """
     with psycopg2.connect(database='postgres', **params) as conn:
         with conn.cursor() as cur:
-            cur.execute('DROP DATABASE {database_name}')
+            cur.execute(f'DROP DATABASE {database_name}')
             cur.execute(f'CREATE DATABASE {database_name}')
 
     conn.close()
