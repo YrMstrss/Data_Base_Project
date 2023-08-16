@@ -94,11 +94,11 @@ def create_database(database_name: str, params: dict) -> None:
     :param params: Parameters for connection to database
     :return: None
     """
-    with psycopg2.connect(database='postgres', **params) as conn:
-        with conn.cursor() as cur:
-            cur.execute(f'DROP DATABASE {database_name}')
-            cur.execute(f'CREATE DATABASE {database_name}')
-
+    conn = psycopg2.connect(dbname='postgres', **params)
+    conn.autocommit = True
+    cur = conn.cursor()
+    cur.execute(f"drop database if exists {database_name}")
+    cur.execute(f"create database {database_name}")
     conn.close()
 
     with psycopg2.connect(database=database_name, **params) as conn:
@@ -123,7 +123,7 @@ def create_database(database_name: str, params: dict) -> None:
                     Min_salary int,
                     Max_salary int,
                     Currency varchar(10),
-                    Company_ID int REFERENCES employers (ID_компании) NOT NULL
+                    Company_ID int REFERENCES employers (Company_ID) NOT NULL
                     )
             """)
 
